@@ -1,0 +1,29 @@
+# Targets and SSH settings come from .env (loaded by the Makefile)
+version: 2
+
+config:
+  transport: ssh
+  ssh:
+    user:
+      _plugin: env_var
+      var: SSH_USER
+    private-key:
+      _plugin: env_var
+      var: SSH_KEY
+    host-key-check: false
+    run-as: root          # use sudo on the target
+
+groups:
+  - name: nginx_servers
+    targets:
+      - name: nginx-01
+        uri:
+          _plugin: env_var
+          var: NGINX_HOST
+
+  - name: apache_servers
+    targets:
+      - name: apache-01
+        uri:
+          _plugin: env_var
+          var: APACHE_HOST
